@@ -22,7 +22,7 @@ Notes: for each sub-task below, include a brief summary of the steps you have pe
 
 Markdown working example via:
 
-![Azure for Students subscription with remaining credit](https://github.com/Kaurmd/eece3093c-Kaurmd/blob/screenshots/part1-microsoftazure.png)
+![Azure for Students subscription with remaining credit](Screenshots/part1-microsoftazure.png)
 
 ### Cloud Shell version check
 ![git, node, and npm versions verified in Azure Cloud Shell](Screenshots/part1-cloudshell.png)

@@ -25,7 +25,7 @@ Markdown working example via:
 ![Azure for Students subscription with remaining credit](https://github.com/Kaurmd/eece3093c-Kaurmd/blob/screenshots/part1-microsoftazure.png)
 
 ### Cloud Shell version check
-![git, node, and npm versions verified in Azure Cloud Shell]
+![git, node, and npm versions verified in Azure Cloud Shell](Screenshots/part1-cloudshell.png)
 
 ## Part II — GitHub Account and Private Repository
 

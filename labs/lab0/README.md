@@ -21,34 +21,42 @@ Direct link to lab folder: https://github.com/Kaurmd/eece3093c-Kaurmd/tree/main/
 Markdown working example via:
 
 ![Azure for Students subscription with remaining credit](Screenshots/part1-microsoftazure.png)
+An active subscription for Azure for Students is shown. 
 
 ### Cloud Shell version check
 ![git, node, and npm versions verified in Azure Cloud Shell](Screenshots/part1-cloudshell.png)
+Required tools' versions are verified within Cloud Shell as shown.
 
 ## Part II — GitHub Account and Private Repository
 
 ### Private repository
 
 ![Private repository main page](Screenshots/part2-privaterepository.png)
+Displays the title of the repository and that it is private.
 
 ### phung-se invited as collaborator
 
 ![Collaborators page showing phung-se](Screenshots/part2-collaborators.png)
+An invite sent to the instructor's grading account.
 
 ### Projects permission check
 
 ![Empty project board confirming Projects permission](Screenshots/part2-projectscheck.png)
+Empty project is able to be created with specified title. 
 
 ## Part III — git Exercises
 
 ### SSH key generated
 
 ![ssh-keygen output and public key](Screenshots/part3-sshkey.png)
+Generated SSH key and cat output with public key used to clone repository. 
 
 ### Push success
 
 ![git add, commit, and push output](Screenshots/part3-push-success.png)
+Modified file was successfully saved and pushed.
 
 ### README rendered
 
 ![output](Screenshots/part3-readme-rendered.png)
+The README file was correctly pushed to GitHub.

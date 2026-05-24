@@ -39,7 +39,7 @@ Markdown working example via:
 
 ### Projects permission check
 
-![Empty project board confirming Projects permission]
+![Empty project board confirming Projects permission](Screenshots/part2-projectscheck.png)
 
 ## Part III — git Exercises
 

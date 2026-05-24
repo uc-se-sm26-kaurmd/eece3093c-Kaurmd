@@ -48,4 +48,7 @@ Markdown working example via:
 ### Push success
 
 ![git add, commit, and push output](Screenshots/part3-push-success.png)
+
+### README rendered
+
 ![output](Screenshots/part3-readme-rendered.png)

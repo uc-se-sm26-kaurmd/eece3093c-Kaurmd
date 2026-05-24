@@ -45,7 +45,9 @@ Markdown working example via:
 
 ### SSH key generated
 
-![ssh-keygen output and public key]
+![ssh-keygen output and public key](Screenshots/part3-sshkey.png)
 
 ### Push success
 
+![git add, commit, and push output](Screenshots/part3-push-success.png)
+![output](Screenshots/part3-readme-rendered.png)

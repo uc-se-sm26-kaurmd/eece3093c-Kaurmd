@@ -31,11 +31,11 @@ Markdown working example via:
 
 ### Private repository
 
-![Private repository main page]
+![Private repository main page](Screenshots/part2-privaterepository.png)
 
 ### phung-se invited as collaborator
 
-![Collaborators page showing phung-se]
+![Collaborators page showing phung-se](Screenshots/part2-collaborators.png)
 
 ### Projects permission check
 

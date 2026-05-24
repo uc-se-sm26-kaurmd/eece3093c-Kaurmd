@@ -10,11 +10,9 @@
 
 ## The lab's overview
 
-Write an overview of the lab.
+This lab was an introduction to the tools that will be used throughout this course, which include Microsoft Azure, Git, and GitHub. The sub-tasks included checking the version of Cloud Shell, ensuring grading access to the repository is correct, then generating an SSH key within Cloud Shell. This then allowed for the connection to GitHub to clone the repository and edit the README file, therefore successfully pushing the update to GitHub. 
 
-Also, include a direct clickable link to the lab folder on GitHub.com so that it can be viewed when grading.
-
-Notes: for each sub-task below, include a brief summary of the steps you have performed and the outcome.
+Direct link to lab folder: https://github.com/Kaurmd/eece3093c-Kaurmd/tree/main/labs/lab0
 
 ## Part I — Microsoft Azure for Students and Azure Cloud Shell
 

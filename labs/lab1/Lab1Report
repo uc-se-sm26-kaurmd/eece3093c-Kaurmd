@@ -5,19 +5,20 @@
 |---|---|
 | **Course** | EECE/CS 3093C — Software Engineering, Summer 2026 |
 | **Instructor** | Dr. Phu Phung |
-| **Name** | *[Your Full Name]* |
-| ** Email** | *[yourlogin@mail.uc.edu]* |
-| **GitHub Repository** | *[https://github.com/yourusername/se-yourid]* |
-| **Azure Live URL** | *[https://yourid-messenger-lab1.azurewebsites.net]* |
+| **Name** | *Manjinder Kaur* |
+| ** Email** | *kaurmd@mail.uc.edu* |
+| **GitHub Repository** | *https://github.com/uc-se-sm26-kaurmd/eece3093c-Kaurmd* |
+| **Azure Live URL** | *https://kaurmd-messenger-lab1.azurewebsites.net* |
 
 ---
 ## Overview
 
-Provide a brief overview of the lab and its learning outcomes.
+In this lab, needed to build and deploy a chat application. This is done by using the code skeleton, altering the UI visuals, and running the app. These functions are then implemented by completing the use cases for Send Message and Receive Message. SSDLC security practices, such as a Content-Security-Policy header and DOMPurify are also enforced as protection against XSS attacks. This lab's learning outcomes involve deploying a messenging app and understanding different security measures.
 
 ## Task 1 — Git Branch, Node.js Web Application Setup and Testing
 
 ### Screenshot 1a — Local app running
+
 *Caption:* [Describe what the screenshot shows — terminal with `npm start` output and browser Web Preview with your name visible.]
 
 ![task1a](task1a-npm-start-webpreview.png)

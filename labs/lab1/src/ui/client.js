@@ -1,7 +1,7 @@
 /* =============================================================================
  * EECE/CS 3093C Software Engineering — Lab 1
  * client.js — code skeleton provided by Dr. Phu Phung
- * Code complete implementation by [Your Name]
+ * Code complete implementation by Manjinder Kaur
  * ===============================================================================
  */
 var socket = io(); //connect to the Socket.io Server
@@ -38,7 +38,8 @@ function sendMessage() {
     var message = chatMessageInput.value.trim();
     if (!message) return;   // AC-02.2: empty messages are ignored
     console.log(`Debug>Chat message: ${message}`); //for UI testing only
-    // other AC will be implemented
+    socket.emit('message', message); //new code to implement AC-01.3:
+    //when a non-empty message is sent
     chatMessageInput.value = ''; // AC-01.5: clear input after sending
     chatMessageInput.focus();
 }
@@ -48,8 +49,25 @@ function sendMessage() {
 // =============================================================================
 
 //TODO: code to implement AC-02.1: display incoming chat messages without page refresh
+socket.on('message', displayMessage);
 
+function displayMessage(data) {
+    var d = document.createElement('div');
+    // AC-02.2: shows timestamp for each message
+    var timestamp = new Date().toLocaleTimeString();
+    d.innerHTML = '<span style="color: #2431e5">[' + timestamp + ']</span> ' 
+                    + DOMPurify.sanitize(data);
+    document.getElementById('responses').appendChild(d);
+}
 
 //TODO: code to implement AC-02.1: display system status events (join/leave) in the status area
-// AC-02.2: shows timestamp for each message
-// AC-02.3 (UI): auto-scroll to the latest message
+// AC-02.1: display system status events (join/leave) in the status area
+socket.on('status', function(data) {
+    var statusElm = document.getElementById('status');
+    // AC-02.2: shows timestamp for each message
+    var timestamp = new Date().toLocaleTimeString();
+    statusElm.innerHTML = statusElm.innerHTML + '<br><span style="color: #2ee524">[' + timestamp + ']</span> ' + DOMPurify.sanitize(data);
+
+    // AC-02.3 (UI): auto-scroll to the latest message
+    statusElm.scrollTop = statusElm.scrollHeight;
+    });

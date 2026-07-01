@@ -20,7 +20,7 @@
   "type": "commonjs",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node labs/lab1/src/server.js"
   },
   "dependencies": {
     "express": "^5.2.1",

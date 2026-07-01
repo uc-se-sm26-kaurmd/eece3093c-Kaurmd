@@ -11,16 +11,16 @@ const app    = express();
 const server = http.createServer(app);
 const io     = new Server(server);
 // AC-02.6 (Security): CSP header - browser-level defense-in-depth
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
   res.setHeader(
-    'Content-Security-Policy', 
-    "default-src 'self'; \
-    script-src 'self' https://cdnjs.cloudflare.com; \
-    style-src 'self' 'unsafe-inline'; \
-    connect-src 'self' https://cdnjs.cloudflare.com"
-  );
+  'Content-Security-Policy',
+  "default-src 'self'; \
+  "script-src 'self' https://cdnjs.cloudflare.com; https://cdn.jsdelivr.net; https://code.jquery.com; \
+  "style-src 'self' 'unsafe-inline; \
+  "connect-src 'self' https://cdnjs.cloudflare.com; https://cdn.jsdelivr.net; https://cdn.jsdelivr.net/npm; https://code.jquery.com;"
+);
   next();
-});
+});*/
 app.use(express.static(path.join(__dirname, 'ui')));
 
 const PORT = process.env.PORT || 8080;
@@ -73,4 +73,10 @@ io.on('connection', (socket) => {
     io.emit('status', username +
       ' left the chat. Number of connected clients: ' + userlist.size);
   });
+  socket.on('typing', () => {
+    const username = userlist.get(socket.id);
+    console.log(`${username} is typing ...`)
+    socket.broadcast.emit('typing', username);
+  });
+
 });

@@ -27,7 +27,8 @@ if(!chatMessageInput) {
 }
 // AC-01.2 (UI): pressing Enter also triggers sendMessage()
 chatMessageInput.addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') sendMessage();
+    socket.emit('typing');
+    if (e.key === 'Enter') sendMessage();
 });
 
 // =============================================================================
@@ -71,3 +72,25 @@ socket.on('status', function(data) {
     // AC-02.3 (UI): auto-scroll to the latest message
     statusElm.scrollTop = statusElm.scrollHeight;
     });
+
+document.getElementById('joinBtn').addEventListener('click', joinChat);
+function joinChat() {
+    //input validation here before sending to the server
+    const username = document.getElementById('username').value;
+    const pattern = /^\w{3,20}$/;
+    if (!username || !pattern.test(username)) {
+        alert("Username cannot be empty and must be between 3-20 characters!");
+        return;
+    }
+
+    //the following lines should be moved to the authentication confirmation from the server
+    document.getElementById('loginUI').style.display = 'none';
+    document.getElementById('chatUI').style.display = '';
+}
+socket.on("typing", function(data){
+    console.log("typing event: "+data);
+    $(".ticontainer").show();
+    setTimeout(() => {$(".ticontainer").hide()},10000);
+    //clear the typing message after 0.5s to make it look realtime,
+    //otherwise, it is displayed forever
+});

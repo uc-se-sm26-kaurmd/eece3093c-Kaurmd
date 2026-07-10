@@ -1,7 +1,7 @@
 // =============================================================================
 // EECE/CS 3093C Software Engineering — Lab 1
 // server.js — code skeleton provided by Phu Phung
-// complete implementation by [Your Name]
+// complete implementation by Manjinder Kaur
 // =============================================================================
 const express    = require('express');
 const http       = require('http');
@@ -10,6 +10,17 @@ const path       = require('path');
 const app    = express();
 const server = http.createServer(app);
 const io     = new Server(server);
+// AC-02.6 (Security): CSP header - browser-level defense-in-depth
+/*app.use((req, res, next) => {
+  res.setHeader(
+  'Content-Security-Policy',
+  "default-src 'self'; \
+  "script-src 'self' https://cdnjs.cloudflare.com; https://cdn.jsdelivr.net; https://code.jquery.com; \
+  "style-src 'self' 'unsafe-inline; \
+  "connect-src 'self' https://cdnjs.cloudflare.com; https://cdn.jsdelivr.net; https://cdn.jsdelivr.net/npm; https://code.jquery.com;"
+);
+  next();
+});*/
 app.use(express.static(path.join(__dirname, 'ui')));
 
 const PORT = process.env.PORT || 8080;
@@ -26,6 +37,8 @@ io.on('connection', (socket) => {
   console.log('New client connected - socket ID: ' + socket.id )
 
   //Todo: UC-02 (AC-02.1): notify all connected clients that a new user joined
+  io.emit('status', username +
+        ' joined the chat. Number of connected clients: ' + userlist.size);
 
   // ---------------------------------------------------------------------------
   // Use-Case-01: Send message
@@ -38,6 +51,14 @@ io.on('connection', (socket) => {
   // AC-01.5: input is cleared after sending (enforced client-side)
   // ---------------------------------------------------------------------------
   //Todo: code to implement the above use case and AC items
+  socket.on('message', (data) => {
+    // AC-01.2: ignore empty messages
+    if (!data || data.trim() === '') return;
+    // AC-01.3 + AC-01.4: broadcast to all clients with sender username
+    const sender = userlist.get(socket.id);
+    console.log(`Debug> "${sender} sent: ${data}"`);
+    io.emit('message', sender + ' says: ' + data.trim());
+  });
 
   // ---------------------------------------------------------------------------
   // Use-Case-02: Receive message — disconnect notification
@@ -49,5 +70,13 @@ io.on('connection', (socket) => {
     userlist.delete(socket.id);
     console.log('Client disconnected - socket ID: ' + socket.id);
     //todo: code to broadcast the status
+    io.emit('status', username +
+      ' left the chat. Number of connected clients: ' + userlist.size);
   });
+  socket.on('typing', () => {
+    const username = userlist.get(socket.id);
+    console.log(`${username} is typing ...`)
+    socket.broadcast.emit('typing', username);
+  });
+
 });

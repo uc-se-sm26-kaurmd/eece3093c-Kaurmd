@@ -51,10 +51,11 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v3
         with:
-          auth-type: "OIDC"
+          auth-type: "SERVICE_PRINCIPAL"
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A8AF92C287ED44C9B921C136FD33B5D7 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1C5966BDC64F4BD49841DB1D2DCC6ACB }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_85D53CB2900449AAA3C998BA46283195 }}
+          client-secret: ${{ secrets.AZUREAPPSERVICE_CLIENTSECRET_A8AF92C287ED44C9B921C136FD33B5D7 }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp

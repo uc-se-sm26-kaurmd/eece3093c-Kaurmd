@@ -22,19 +22,31 @@
 </head>
 <body>
 
-<h1>Simple Messenger — EECE/CS 3093C Lab 1</h1>
+<h1>Messenger with Simple Authentication — EECE/CS 3093C Lab 2</h1>
 <h3>By Manjinder Kaur</h3>
 
 <div id="loginUI">
-  <input type="text" id="username" placeholder="Username"
-      pattern="\w{3, 20}" required
-      title="Username must be between 3-20 characters">
-  <button class="button" id="joinBtn">Join Chat</button>
+    <label for="Username">Username: </label>
+    <input type="text" id="username" placeholder="Username"
+        pattern="\w{3, 20}" required
+        title="Username must be between 3-20 characters">
+    <br>
+    <label for="password">Password: </label>
+    <input type="password" id="password" placeholder="Type your password here"
+    pattern="^(?=.*[A-Za-z])(?=.*\d).{6,}$"
+    title="Password must be at least 6 characters long and contain both letters and numbers."
+    required>
+    <button class="button" id="joinBtn">Join Chat</button>
+    <div id="login-error" style="color:red;"></div>
 </div>
 
 <div id="chatUI" style="display:none">
+  <span>Logged in as:&nbsp;<strong id="display-name"></strong></span>
+      &nbsp;&nbsp;
   <button id="logoutBtn">Logout</button>
-  <!--existing UI elements from Lecture 11 and previous lectures-->
+
+  <br>
+  <span>User list:&nbsp;<strong id="user-list"></strong></span>
   <br>
   Chat message:  
   <input id="chat-message" type="text" autocomplete="off" placeholder="Type a message…" style="width:450px;" />  

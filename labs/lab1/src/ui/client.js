@@ -79,14 +79,43 @@ function joinChat() {
     const username = document.getElementById('username').value;
     const pattern = /^\w{3,20}$/;
     if (!username || !pattern.test(username)) {
-        alert("Username cannot be empty and must be between 3-20 characters!");
+        document.getElementById('login-error').textContent="Username cannot be empty and must be between 3-20 characters.";
         return;
     }
 
+    const password = document.getElementById('password').value;
+    const passwordpattern = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+    if (!password || !passwordpattern.test(password)) {
+        document.getElementById('login-error').textContent="Password must be at least 6 characters long and contain at least one letter and one number.";
+        return;
+    }
+    document.getElementById('login-error').textContent="";
+    // AC-03.1: send credentials (as JSON object) to server (UC-03)
+    const logincredentials= { username: username, password: password };
+    socket.emit('join', logincredentials);
+    console.log("Debug>sent login credentials to server: " + JSON.stringify(logincredentials));
+
+}   
+socket.on('join-success', function(username) {
     //the following lines should be moved to the authentication confirmation from the server
     document.getElementById('loginUI').style.display = 'none';
     document.getElementById('chatUI').style.display = '';
-}
+
+    document.getElementById('display-name').textContent = username;
+});
+
+socket.on('join-error', function(message) {
+    document.getElementById('login-error').textContent = message;
+});
+
+socket.on('not-authorized', function() {
+    console.log("Debug>this client has not been authenticated!");
+});
+socket.on('user-list', (users) => {
+    console.log("Debug>got user-list= " + JSON.stringify(users));
+    document.getElementById('user-list').textContent = JSON.stringify(users);
+});
+
 socket.on("typing", function(data){
     console.log("typing event: "+data);
     $(".ticontainer").show();

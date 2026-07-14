@@ -1,10 +1,10 @@
 // =============================================================================
 // EECE/CS 3093C Software Engineering — Lab 3
 // messengerdb.js — code skeleton provided by Phu Phung
-// complete implementation by [Your Name]
+// complete implementation by Manjinder Kaur
 // =============================================================================
 const { MongoClient } = require('mongodb');
-const uri = ".."; //replace this with your connection string
+const uri = "mongodb+srv://kaurmd:ManjinderkaurDB@messengerdb.liqpzsa.mongodb.net/?appName=MessengerDB"; //replace this with your connection string
 const client = new MongoClient(uri);
 
 async function connect (){

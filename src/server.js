@@ -10,6 +10,7 @@ const path       = require('path');
 const app    = express();
 const server = http.createServer(app);
 const io     = new Server(server);
+const messengerdb = require('./messengerdb');
 // AC-02.6 (Security): CSP header - browser-level defense-in-depth
 /*app.use((req, res, next) => {
   res.setHeader(
@@ -24,7 +25,16 @@ const io     = new Server(server);
 app.use(express.static(path.join(__dirname, 'ui')));
 
 const PORT = process.env.PORT || 8080;
-server.listen(PORT, () => console.log('Server running on port ' + PORT));
+(async () => {
+  try {
+    await messengerdb.connect();
+    server.listen(PORT, () =>
+      console.log('Server running on port ' + PORT));
+  } catch (err) {
+    console.log('Error>server.js: failed to start — database connection error', err);
+    process.exit(1); // fail fast — don't run a server that can't authenticate anyone
+  }
+})();
 
 // In-memory store: socketId → username
 const userlist = new Map();

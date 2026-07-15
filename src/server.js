@@ -25,6 +25,7 @@ const messengerdb = require('./messengerdb');
 app.use(express.static(path.join(__dirname, 'ui')));
 
 const PORT = process.env.PORT || 8080;
+
 (async () => {
   try {
     await messengerdb.connect();
@@ -44,11 +45,11 @@ const userlist = new Map();
 // Temporary: hard-coded JSON array — Lab 2 only
 // TODO (Sprint 2): replace with MongoDB Atlas + bcrypt hashing
 // =============================================================
-const users = [
+/*const users = [
   { username: 'abc',   password: 'Pass1234' },
   { username: 'xyz',     password: 'Pass5678' },
   { username: 'test', password: 'Pass9012' }
-];  
+];*/
 
 // =============================================================
 // Use-Case-04: Authorize User
@@ -87,7 +88,7 @@ io.on('connection', (socket) => {
   // =======================================
   // Use-Case-03: Join Chat
   // =======================================
-  socket.on('join', function ({ username, password }) {
+  socket.on('join', async function ({ username, password }) {
     // AC-03.2: server-side structural validation
     if (!username || typeof username !== 'string' ||
         !password || typeof password !== 'string' ||
@@ -99,9 +100,7 @@ io.on('connection', (socket) => {
     username = username.trim();
     console.log(`Debug>UC-03: Join Chat, server received username '${username}' and password '${password}'`);
     // AC-03.3: credential lookup - same result for unknown user or wrong password
-    const user = users.find(u =>
-      u.username === username && u.password === password
-    );
+    const user = await messengerdb.find(username,password);
     if (!user) {
       // AC-03.3: generic message - does not reveal which field failed
       socket.emit('join-error', 'Invalid username or password.'); // AC-03.4

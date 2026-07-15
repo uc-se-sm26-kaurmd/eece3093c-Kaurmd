@@ -12,4 +12,14 @@ async function connect (){
   console.log('Debug>messengerdb.js: connected to MongoDB server!');
 }
 
-module.exports = { connect };
+let users = client.db('messenger').collection('users');
+//'messenger' is the database name, 'users' is the collection name
+// change them accordingly if you named them differently
+// Use-Case-03: Join Chat — credential check against MongoDB
+const find = async (username,password)=>{
+  let user = null;
+  console.log(`Debug>messengerdb.js: find user '${username}' with password '${password}'`)
+  user = await users.findOne({username:username,password:password});
+  return user; // null if no match
+}
+module.exports = { connect, find };

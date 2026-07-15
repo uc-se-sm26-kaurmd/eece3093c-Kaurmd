@@ -38,6 +38,19 @@
     required>
     <button class="button" id="joinBtn">Join Chat</button>
     <div id="login-error" style="color:red;"></div>
+    <p>Don't have an account? <a href="#" id="showRegisterBtn">Register here</a></p>
+</div>
+
+<!-- AC-05.1: registration form reachable from login screen, no page reload -->
+<div id="registerUI" style="display: none;">
+<h2>Messenger — Sign up for a new account</h2>
+<label for="Username">Username: </label> <input type="text" id="reg-username" placeholder="Username (3-20 characters)" maxlength="20">
+<br>
+<label for="password">Password: </label>
+<input type="password" id="reg-password" placeholder="Password (min 6 chars, letters + numbers)" maxlength="72">
+<button class="button round" id="registerBtn">Register</button>
+<p id="register-error" style="color: red;"></p>
+<p>Already have an account? <a href="#" id="showLoginBtn">Log in here</a></p>
 </div>
 
 <div id="chatUI" style="display:none">

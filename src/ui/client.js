@@ -93,7 +93,7 @@ function joinChat() {
     // AC-03.1: send credentials (as JSON object) to server (UC-03)
     const logincredentials= { username: username, password: password };
     socket.emit('join', logincredentials);
-    console.log("Debug>sent login credentials to server: " + JSON.stringify(logincredentials));
+    //console.log("Debug>sent login credentials to server: " + JSON.stringify(logincredentials));
 
 }   
 socket.on('join-success', function(username) {
@@ -122,4 +122,69 @@ socket.on("typing", function(data){
     setTimeout(() => {$(".ticontainer").hide()},10000);
     //clear the typing message after 0.5s to make it look realtime,
     //otherwise, it is displayed forever
+});
+
+    //Use-Case-05: Register Account:
+    document.getElementById('registerBtn').addEventListener('click', registerAccount);
+
+function registerAccount() {
+    // AC-05.2: client-side format validation before submission
+    const username = document.getElementById('reg-username').value;
+    const pattern = /^\w{3,20}$/;
+    if (!username || !pattern.test(username)) {
+        document.getElementById('register-error').textContent =
+          "Username cannot be empty and must be between 3-20 characters!";
+        return;
+    }
+    const password = document.getElementById('reg-password').value;
+    const passwordpattern = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+    if (!password || !passwordpattern.test(password)) {
+        document.getElementById('register-error').textContent =
+            "Password must be at least 6 characters long and contain both letters and numbers.";
+        return;
+    }
+    document.getElementById('register-error').textContent = '';
+    socket.emit('register', { username: username, password: password });
+}
+
+// AC-05.7: clear confirmation on success, shown on the now-visible login screen
+socket.on('register-success', function(username) {
+    document.getElementById('registerUI').style.display = 'none';
+    document.getElementById('loginUI').style.display = '';
+    document.getElementById('register-error').textContent = '';
+    document.getElementById('login-error').textContent = `Account '${username}' created! You can now log in.`;
+});
+// AC-05.8: specific, actionable error message on failure
+socket.on('register-error', function(message) {
+    document.getElementById('register-error').textContent = message;
+});
+
+// Toggle: Login -> Register
+document.getElementById('showRegisterBtn').addEventListener('click', function() {
+    document.getElementById('loginUI').style.display = 'none';
+    document.getElementById('registerUI').style.display = '';
+    document.getElementById('login-error').textContent = '';
+    });
+    // Toggle: Register -> Login
+    document.getElementById('showLoginBtn').addEventListener('click', () => {
+    document.getElementById('registerUI').style.display = 'none';
+    document.getElementById('loginUI').style.display = '';
+    document.getElementById('register-error').textContent = '';
+    });
+
+// Use-Case-06: Leave Chat
+document.getElementById('logoutBtn').addEventListener('click', leaveChat);
+
+function leaveChat() {
+    socket.emit('leave-chat');
+}
+
+// AC-06.5: return to login screen, clear chat history
+socket.on('leave-success', function() {
+    document.getElementById('chatUI').style.display = 'none';
+    document.getElementById('loginUI').style.display = '';
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('responses') .innerHTML = '';
+    document.getElementById('status').innerHTML = '';
 });

@@ -98,13 +98,13 @@ io.on('connection', (socket) => {
       return;
     }
     username = username.trim();
-    console.log(`Debug>UC-03: Join Chat, server received username '${username}' and password '${password}'`);
+    //console.log(`Debug>UC-03: Join Chat, server received username '${username}' and password '${password}'`);
     // AC-03.3: credential lookup - same result for unknown user or wrong password
     const user = await messengerdb.find(username,password);
     if (!user) {
       // AC-03.3: generic message - does not reveal which field failed
       socket.emit('join-error', 'Invalid username or password.'); // AC-03.4
-      console.log(`Debug>UC-03: Join Chat - invalid username '${username}' or password '${password}'`);
+      //console.log(`Debug>UC-03: Join Chat - invalid username '${username}' or password '${password}'`);
       
       return;
     }
@@ -181,5 +181,55 @@ io.on('connection', (socket) => {
     console.log(`${username} is typing ...`)
     socket.broadcast.emit('typing', username);
   });
+  // Use-Case-05: Register Account
+  socket.on('register', async function({ username, password }) {
+    if (!username || typeof username !== 'string' ||
+       !password || typeof password !== 'string' ||
+       username.trim().length === 0 || password.length === 0) { // AC-05.3
+      socket.emit('register-error', 'Invalid request.'); // AC-05.8
+      return;
+}
+username = username.trim();
+// AC-05.3: server independently re-validates format — client can be bypassed
+const usernamePattern = /^\w{3,20}$/;
+const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+if (!usernamePattern.test(username)) {
+socket.emit('register-error', 'Username must be 3-20 characters (letters, numbers, underscore).');
+return; // AC-05.8
+}
+if (!passwordPattern.test(password)) {
+socket.emit('register-error', 'Password must be at least 6 characters with letters and numbers.');
+return; // AC-05.8
+}
+let result;
+try {
+  result = await messengerdb.register(username, password);
+} catch (err) {
+  socket.emit('register-error', 'Server error. Please try again.'); // AC-05.8
+  return;
+}
+if (!result.success) {
+  socket.emit('register-error', result.message); // AC-05.8
+  return;
+}
+socket.emit('register-success', username); // AC-05.7: send the 'register-success' event to the client
+  });
 
+// Use-Case-06: Leave Chat
+socket.on('leave-chat', function() {
+  // «include» UC-04: Authorize User - AC-06.2
+  if (!authorizeUser(socket)) {
+    socket.emit('not-authorized');
+    return;
+  }
+
+  const username = userlist.get(socket.id);
+  userlist.delete(socket.id);
+  socket.authenticated = false; // AC-06.3: revoke state: connection stays open
+
+  socket.emit('leave-success');
+  sendToAuthenticatedClients('status', username + ' left the chat. Number of connected clients: ' + userlist.size); //
+  const authenticatedUsers = Array.from(new Set(userlist.values()));
+  sendToAuthenticatedClients('user-list', authenticatedUsers); // AC-06.4
+  });
 });

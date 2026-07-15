@@ -49,8 +49,9 @@ jobs:
           name: node-app
       
       - name: Login to Azure
-        uses: azure/login@v2
+        uses: azure/login@v3
         with:
+          auth-type: "SERVICE_PRINCIPAL"
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_DA05FF032FFD4D26ABF14F1DC49CE121 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CFD17658292F407FAB85B235CDF92DAA }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1EA42AFCA310490282B9148FAE1D8EC8 }}

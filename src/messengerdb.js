@@ -5,7 +5,7 @@
 // =============================================================================
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
-const uri = "mongodb+srv://kaurmd:ManjinderkaurDB@messengerdb.liqpzsa.mongodb.net/?appName=MessengerDB"; //replace this with your connection string
+const uri = "mongodb+srv://kaurmd:ManjinderkaurDB@messengerdb.skut3bw.mongodb.net/?appName=MessengerDB"; //replace this with your connection string
 const client = new MongoClient(uri);
 
 async function connect (){
